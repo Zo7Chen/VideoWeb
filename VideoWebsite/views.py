@@ -9,8 +9,11 @@ def homepage(request):
         return render(request, 'homepage.html')
 
 
-def video(request, video_id):
+def video(request, video_id, part_id):
     if request.method == 'GET':
-        video_uri = 'abc'
-        if video_id == video_uri:
-            return render(request, 'video.html', video_uri)
+        video_uri = 'abc.mp4'
+
+        context = {
+            'video_url':video_id
+        }
+        return render(request, 'video.html', context)

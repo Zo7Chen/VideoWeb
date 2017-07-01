@@ -20,6 +20,6 @@ from .views import *
 urlpatterns = [
     url(r'^$', homepage),
     url(r'^admin/', admin.site.urls),
-    url(r'^video/(?P<video_id>[0-9]{6}/$', video),
+    url(r'^video/(?P<video_id>[A-Za-z0-9]{3})/(?P<part_id>[A-Za-z0-9]{3})/$', video),
 
 ]

@@ -10,9 +10,30 @@ import threading
 from .moviewer import *
 
 
+class VideoNameUrl(object):
+    name = ''
+    url = ''
+
+    def __int__(self):
+        name = ''
+        url = ''
+
+
 def homepage(request):
     if request.method == 'GET':
-        return render(request, 'homepage.html')
+        videoinfo = get_videos()
+        videolist = []
+        for i in range(len(videoinfo)):
+            video_id = str(videoinfo[i].get_parts()[0].get_id())
+            video_url = '/video/' + video_id
+            newvideo = VideoNameUrl()
+            newvideo.name = videoinfo[i].get_name()
+            newvideo.url = video_url
+            videolist.append(newvideo)
+        context = {
+            'videolist': videolist
+        }
+        return render(request, 'homepage.html', context)
 
 
 def video(request, part_id):
@@ -21,7 +42,7 @@ def video(request, part_id):
         videoinfo = partinfo.get_video()
 
         context = {
-            'video_url': '/media/' + partinfo.get_id() + '.mp4',
+            'video_url': '/media/' + str(partinfo.get_id()) + '.mp4',
             'part_name': partinfo.get_name(),
             'video_name': videoinfo.get_name(),
 

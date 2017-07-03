@@ -9,5 +9,8 @@
 <form action="uploadpage" method="get">
   <button type="submit" >上传视频</button>
 </form>
+{% for video in videolist %}
+    <a href="{{video.url}}">{{video.name}}</a>
+{% endfor %}
 </body>
 </html>

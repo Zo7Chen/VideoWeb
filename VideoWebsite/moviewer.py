@@ -61,8 +61,8 @@ class VideoInfo(object) :
 		with connection.cursor() as cursor :
 			sql = "INSERT INTO parts_info(video_id, name, order_number) VALUES(%s, %s, %s)"
 			cursor.execute(sql, (self.get_id(), part_name, self.count_parts() + 1))
-			connection.commit()
-			return PartInfo(get_last_id())
+		connection.commit()
+		return PartInfo(get_last_id())
 
 
 

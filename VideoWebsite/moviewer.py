@@ -1,4 +1,6 @@
 import pymysql
+import cv2
+
 
 
 connection = None
@@ -180,3 +182,18 @@ def add_video(name) :
 	result = VideoInfo(get_last_id())
 	connection.commit()
 	return result
+
+
+
+def create_snapshot(source_video, target_file) :
+	'''
+	Create the target_file to save a snapshot of the source_video. Returns True if the operation was a success.
+	'''
+	vcobj = cv2.VideoCapture(source_video)
+	if vcobj.isOpened() :
+		result, frame = vcobj.read()
+		if result :
+			cv2.imwrite(target_file, frame)
+			return True
+	return False
+		

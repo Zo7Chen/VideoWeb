@@ -5,12 +5,15 @@
     <title>主页</title>
 </head>
 <body>
-<p>Hello world!</p>
+<h1>Video Website MAINPAGE</h1>
 <form action="uploadpage" method="get">
   <button type="submit" >上传视频</button>
 </form>
 {% for video in videolist %}
+	<a href="{{video.url}}"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
+	<br>
     <a href="{{video.url}}">{{video.name}}</a>
+	<br>
 {% endfor %}
 </body>
 </html>

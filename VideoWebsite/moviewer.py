@@ -194,6 +194,7 @@ def create_snapshot(source_video, target_file) :
 		result, frame = vcobj.read()
 		if result :
 			cv2.imwrite(target_file, frame)
+			vcobj.release()
 			return True
 	return False
 		

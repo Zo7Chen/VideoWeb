@@ -13,10 +13,10 @@ from .moviewer import *
 class VideoNameUrl(object):
     name = ''
     url = ''
+    ss_url = ''
 
     def __int__(self):
-        name = ''
-        url = ''
+        pass
 
 
 def homepage(request):
@@ -26,9 +26,11 @@ def homepage(request):
         for i in range(len(videoinfo)):
             video_id = str(videoinfo[i].get_parts()[0].get_id())
             video_url = '/video/' + video_id
+            ss_url = '/media/' + str(videoinfo[i].get_parts()[0].get_id()) + '.jpg'
             newvideo = VideoNameUrl()
             newvideo.name = videoinfo[i].get_name()
             newvideo.url = video_url
+            newvideo.ss_url = ss_url
             videolist.append(newvideo)
         context = {
             'videolist': videolist
@@ -36,16 +38,47 @@ def homepage(request):
         return render(request, 'homepage.html', context)
 
 
+class PartNameUrl :
+    name = ''
+    url = ''
+    ss_url = ''
+    def __int__(self):
+        pass
+
+class AdjacentPart :
+    prev = ''
+    next = ''
+    def __int__(self):
+        pass
+
 def video(request, part_id):
     if request.method == 'GET':
         partinfo = PartInfo(part_id)
         videoinfo = partinfo.get_video()
+        
+        parts = videoinfo.get_parts()
+        
+        adj_p = AdjacentPart()
+        
+        part_list = []
+        
+        for part in parts :
+            newpart = PartNameUrl()
+            newpart.name = part.get_name()
+            newpart.url = '/video/' + str(part.get_id())
+            newpart.ss_url = '/media/' + str(part.get_id()) + '.jpg'
+            part_list.append(newpart)
+            if part.get_order_num() == partinfo.get_order_num() - 1 :
+                adj_p.prev = newpart.url
+            if part.get_order_num() == partinfo.get_order_num() + 1 :
+                adj_p.next = newpart.url
 
         context = {
             'video_url': '/media/' + str(partinfo.get_id()) + '.mp4',
             'part_name': partinfo.get_name(),
             'video_name': videoinfo.get_name(),
-
+            'part_list': part_list,
+            'adj_p': adj_p
         }
         return render(request, 'video.html', context)
 
@@ -96,12 +129,15 @@ def video_upload(request):
         for i in range(1, int(request.POST['count'])+1):
             uploadvideo = request.FILES.get('video' + str(i))
             partinfo = videoinfo.append_part(request.POST['part_name' + str(i)])
-            videofilename = str(partinfo.get_id()) + '.mp4'
-            filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', videofilename)
-            fobj = open(filename, 'wb')
+            video_filename = str(partinfo.get_id()) + '.mp4'
+            vid_filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', video_filename)
+            fobj = open(vid_filename, 'wb')
             for chrunk in uploadvideo.chunks():
                 fobj.write(chrunk)
             fobj.close()
+            snapshot_filename = str(partinfo.get_id()) + '.jpg'
+            ss_filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', snapshot_filename)
+            create_snapshot(vid_filename, ss_filename)
         context = {
             'message': 'Upload success!'
         }

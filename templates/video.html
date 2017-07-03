@@ -24,6 +24,23 @@
     </a>
     </p>
 </video>
+<br>
+{% if adj_p.prev != '' %}
+	<a href="{{adj_p.prev}}">上一集</a>
+	<br>
+{% endif %}
+{% if adj_p.next != '' %}
+	<a href="{{adj_p.next}}">下一集</a>
+	<br>
+{% endif %}
+<br>
+<br>
+{% for part in part_list %}
+	<a href="{{part.url}}"><img src="{{part.ss_url}}" height ="90" width="160"></img></a>
+	<br>
+    <a href="{{part.url}}">{{part.name}}</a>
+	<br>
+{% endfor %}
 <form action="/" method="get">
   <button type="submit" >返回主页</button>
 </form>

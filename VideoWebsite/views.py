@@ -6,7 +6,7 @@ from django.template import RequestContext
 import os
 import asyncio
 import threading
-from .videoManage import *
+# from .videoManage import *
 from .moviewer import *
 
 

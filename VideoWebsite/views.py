@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.template import RequestContext
 import os
 import asyncio
+import threading
+from .videoManage import *
 
 
 def homepage(request):
@@ -50,6 +52,12 @@ def video_upload(request):
                     'message': 'Please select video to upload!'
                 }
                 return render(request, 'uploadpage.html', context)
+        # loop = asyncio.get_event_loop()
+        # tasks = []
+        # for i in range(1, int(request.POST['count'])+1):
+        #     tasks.append(savevideo(request, request.POST['part_name' + str(i)]), request.FILES.get('video' + str(i)))
+        # loop.run_until_complete(asyncio.wait(tasks))
+        # loop.close()
         for i in range(1, int(request.POST['count'])+1):
             uploadvideo = request.FILES.get('video' + str(i))
             videofilename = request.POST['part_name' + str(i)] + '.mp4'

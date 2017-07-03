@@ -56,7 +56,7 @@ class VideoInfo(object) :
 
 	def append_part(self, part_name) :
 		'''
-		Append a part to this video.
+		Append a part to this video. Returns its info.
 		'''
 		with connection.cursor() as cursor :
 			sql = "INSERT INTO parts_info(video_id, name, order_number) VALUES(%s, %s, %s)"
@@ -109,7 +109,7 @@ class PartInfo(object) :
 
 	def get_order_num(self) :
 		'''
-		Return part's order number.
+		Returns part's order number.
 		'''
 		with connection.cursor() as cursor :
 			sql = "SELECT order_number FROM parts_info where id = %s"
@@ -145,6 +145,9 @@ def disconn_db() :
 	
 	
 def get_last_id() :
+	'''
+	Returns last added video or part's info.
+	'''
 	with connection.cursor() as cursor :
 		sql = "SELECT LAST_INSERT_ID()"
 		cursor.execute(sql)
@@ -168,7 +171,7 @@ def get_videos() :
 		
 def add_video(name) :
 	'''
-	Add a new video info to database.
+	Add a new video info to database. Returns its info.
 	'''
 	with connection.cursor() as cursor :
 		sql = "INSERT INTO videos_info(name) VALUES(%s)"

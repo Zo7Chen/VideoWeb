@@ -28,5 +28,3 @@ urlpatterns = [
     url(r'^uploadpage$', uploadpage),
     url(r'^test$', test),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-

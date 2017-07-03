@@ -15,13 +15,16 @@ def homepage(request):
         return render(request, 'homepage.html')
 
 
-def video(request, video_id, part_id):
+def video(request, part_id):
     if request.method == 'GET':
-
-        video_uri = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', videofilename)
+        partinfo = PartInfo(part_id)
+        videoinfo = partinfo.get_video()
 
         context = {
-            'video_url': video_id
+            'video_url': '/media/' + partinfo.get_id() + '.mp4',
+            'part_name': partinfo.get_name(),
+            'video_name': videoinfo.get_name(),
+
         }
         return render(request, 'video.html', context)
 

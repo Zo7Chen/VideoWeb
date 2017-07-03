@@ -16,13 +16,17 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from .views import *
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     url(r'^$', homepage),
     url(r'^admin/', admin.site.urls),
-    url(r'^video/(?P<video_id>[A-Za-z0-9]{3})/(?P<part_id>[A-Za-z0-9]{3})/$', video),
+    url(r'^video/(?P<part_id>[A-Za-z0-9]{1})/$', video),
     url(r'^video_upload$', video_upload),
-    url(r'uploadpage$', uploadpage),
+    url(r'^uploadpage$', uploadpage),
     url(r'^test$', test),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

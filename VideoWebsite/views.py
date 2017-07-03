@@ -7,6 +7,7 @@ import os
 import asyncio
 import threading
 from .videoManage import *
+from .moviewer import *
 
 
 def homepage(request):
@@ -16,7 +17,8 @@ def homepage(request):
 
 def video(request, video_id, part_id):
     if request.method == 'GET':
-        video_uri = 'abc.mp4'
+
+        video_uri = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', videofilename)
 
         context = {
             'video_url': video_id
@@ -26,6 +28,7 @@ def video(request, video_id, part_id):
 
 def video_upload(request):
     if request.method == 'POST' and request.POST['video_name'] != '':
+        videoinfo = add_video(request.POST['video_name'])
         # loop = asyncio.get_event_loop()
         # tasks = [print_sum(1,2),print_sum(3,4)]
         # loop.run_until_complete(asyncio.wait(tasks))
@@ -58,9 +61,18 @@ def video_upload(request):
         #     tasks.append(savevideo(request, request.POST['part_name' + str(i)]), request.FILES.get('video' + str(i)))
         # loop.run_until_complete(asyncio.wait(tasks))
         # loop.close()
+        # for i in range(1, int(request.POST['count'])+1):
+        #     uploadvideo = request.FILES.get('video' + str(i))
+        #     videofilename = request.POST['part_name' + str(i)] + '.mp4'
+        #     filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', videofilename)
+        #     fobj = open(filename, 'wb')
+        #     for chrunk in uploadvideo.chunks():
+        #         fobj.write(chrunk)
+        #     fobj.close()
         for i in range(1, int(request.POST['count'])+1):
             uploadvideo = request.FILES.get('video' + str(i))
-            videofilename = request.POST['part_name' + str(i)] + '.mp4'
+            partinfo = videoinfo.append_part(request.POST['part_name' + str(i)])
+            videofilename = str(partinfo.get_id()) + '.mp4'
             filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', videofilename)
             fobj = open(filename, 'wb')
             for chrunk in uploadvideo.chunks():

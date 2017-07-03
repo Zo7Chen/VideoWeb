@@ -8,7 +8,7 @@
 <form id="form_upload" enctype="multipart/form-data" action="/video_upload" method="post">
     {% csrf_token %}
     视频名称：<input type="text" name="video_name">
-    <input hidden type="text" id="input_count" name="count" value="">
+    <input hidden type="text" id="input_count" name="count" value="1">
     <p>Part:1</p>
     该P名称： <input type="text" name="part_name1">
     选择视频<input type="file" name="video1">

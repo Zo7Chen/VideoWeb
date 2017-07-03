@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form id="form_upload" enctype="multipart/form-data" action="/video_upload" method="post">
+    {% csrf_token %}
+    视频名称：<input type="text" name="video_name">
+    <input hidden type="text" id="input_count" name="count" value="">
+    <p>Part:1</p>
+    该P名称： <input type="text" name="part_name1">
+    选择视频<input type="file" name="video1">
+</form>
+<button onclick="Add_part()">添加新part</button>
+<button onclick="Submit_form()">上传</button>
+<script>
+    var part_count= 1;
+    function Add_part()
+    {
+        part_count++;
+        var x = document.getElementById("input_count");
+        x.setAttribute("value", part_count);
+        var part_count_toString = "Part:"+ part_count.toString();
+        var para = document.createElement("p");
+        var node = document.createTextNode(part_count_toString);
+        para.appendChild(node);
+        var element = document.getElementById("form_upload");
+        element.appendChild(para);
+        element.appendChild(document.createTextNode("该P名称"));
+        var newpart_name = document.createElement("input");
+        newpart_name.setAttribute("type", "text");
+        newpart_name.setAttribute("name", "part_name"+part_count.toString());
+        element.appendChild(newpart_name);
+        element.appendChild(document.createTextNode("选择视频"));
+        var newvideo = document.createElement("input");
+        newvideo.setAttribute("type", "file");
+        newvideo.setAttribute("name", "video"+part_count.toString());
+        element.appendChild(newvideo);
+    }
+    function Submit_form()
+    {
+        var formid = document.getElementById("form_upload");
+        formid.submit();
+    }
+
+
+</script>
+<p>{{message}}</p>
+</body>
+</html>

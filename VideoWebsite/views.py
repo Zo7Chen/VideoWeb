@@ -39,3 +39,12 @@ def video_upload(request):
                 'message': 'success!'
             }
             return render(request, 'homepage.html', context)
+
+
+def test(request):
+    return render(request, 'abc.html')
+
+
+def uploadpage(request):
+    if request.method == 'GET':
+        return render(request, 'uploadpage.html')

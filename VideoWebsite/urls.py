@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^$', homepage),
     url(r'^admin/', admin.site.urls),
     url(r'^video/(?P<video_id>[A-Za-z0-9]{3})/(?P<part_id>[A-Za-z0-9]{3})/$', video),
-    url(r'^video_upload$', video_upload)
-
+    url(r'^video_upload$', video_upload),
+    url(r'uploadpage$', uploadpage),
+    url(r'^test$', test),
 ]

@@ -6,12 +6,6 @@
 </head>
 <body>
 <p>Hello world!</p>
-<form enctype="multipart/form-data" action="/video_upload" method="post">
-    {% csrf_token %}
-    视频名称：<input type="text" name="video_name">
-    选择视频<input type="file" name="svideo">
-    <input type="submit" value="上传">
-</form>
-<p>{{message}}</p>
+
 </body>
 </html>

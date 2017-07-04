@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^$', homepage),
     url(r'^admin/', admin.site.urls),
     url(r'^uploadpage$', uploadpage),
-    url(r'^video/(?P<part_id>[A-F0-9]{16})/$', video),
+    url(r'^videos/(?P<part_id>[A-F0-9]{16})/$', video),
     url(r'^deletepage$', deletepage),
 
     # post request

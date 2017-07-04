@@ -23,12 +23,12 @@ def homepage(request):
     if request.method == 'GET':
         videoinfo = get_videos()
         videolist = []
-        for i in range(len(videoinfo)):
-            video_id = videoinfo[i].get_parts()[0].get_id_str()
-            video_url = '/video/' + video_id
-            ss_url = '/media/' + videoinfo[i].get_parts()[0].get_id_str() + '.jpg'
+        for videos in videoinfo:
+            video_id = videos.get_parts()[0].get_id_str()
+            video_url = '/videos/' + video_id
+            ss_url = '/media/' + videos.get_parts()[0].get_id_str() + '.jpg'
             newvideo = VideoNameUrl()
-            newvideo.name = videoinfo[i].get_name()
+            newvideo.name = videos.get_name()
             newvideo.url = video_url
             newvideo.ss_url = ss_url
             videolist.append(newvideo)
@@ -36,6 +36,7 @@ def homepage(request):
             'videolist': videolist
         }
         return render(request, 'homepage.html', context)
+
 
 def uploadpage(request):
     return render(request, 'uploadpage.html')
@@ -70,7 +71,7 @@ def video(request, part_id):
         for part in parts:
             newpart = PartNameUrl()
             newpart.name = part.get_name()
-            newpart.url = '/video/' + part.get_id_str()
+            newpart.url = '/videos/' + part.get_id_str()
             newpart.ss_url = '/media/' + part.get_id_str() + '.jpg'
             part_list.append(newpart)
             if part.get_order_num() == partinfo.get_order_num() - 1 :
@@ -103,7 +104,7 @@ def deletepage(request):
         for videos in all_video:
             video_node = DeleteVideoInfo()
             video_node.name = videos.get_name()
-            video_node.url = '/video/' + videos.get_parts()[0].get_id_str()
+            video_node.url = '/videos/' + videos.get_parts()[0].get_id_str()
             video_node.ss_url = '/media/' + videos.get_parts()[0].get_id_str() + '.jpg'
             video_node.part_id = videos.get_parts()[0].get_id_str()
             videolist.append(video_node)
@@ -179,17 +180,34 @@ def video_delete(request):
     if request.method == 'POST':
         for part_list in request.POST.getlist('delete_list'):
             partinfo = PartInfo(int(part_list, 16))
-            delete_video_file = os.path.join(os.path.abspath(os.path.dirname(__name__)),
-                                        'video', partinfo.get_id_str(), '.mp4')
-            if os.path.exists(delete_video_file):
-                os.remove(delete_video_file)
-            delete_jpg_file = os.path.join(os.path.abspath(os.path.dirname(__name__)),
-                                      'video', partinfo.get_id_str(), '.jpg')
-            if os.path.exists(delete_jpg_file):
-                os.remove(delete_jpg_file)
+            delete_videos = partinfo.get_video()
+            for eachvideo in delete_videos.get_parts():
+                delete_video_file = os.path.join(os.path.abspath(os.path.dirname(__name__)),
+                                                 'video', eachvideo.get_id_str() + '.mp4')
+                if os.path.exists(delete_video_file):
+                    os.remove(delete_video_file)
+                delete_jpg_file = os.path.join(os.path.abspath(os.path.dirname(__name__)),
+                                               'video', eachvideo.get_id_str() + '.jpg')
+                # print(delete_jpg_file)
+                if os.path.exists(delete_jpg_file):
+                    os.remove(delete_jpg_file)
             partinfo.get_video().del_this()
-        return render(request, 'homepage.html')
 
+        videoinfo = get_videos()
+        videolist = []
+        for videos in videoinfo:
+            video_id = videos.get_parts()[0].get_id_str()
+            video_url = '/videos/' + video_id
+            ss_url = '/media/' + videos.get_parts()[0].get_id_str() + '.jpg'
+            newvideo = VideoNameUrl()
+            newvideo.name = videos.get_name()
+            newvideo.url = video_url
+            newvideo.ss_url = ss_url
+            videolist.append(newvideo)
+        context = {
+            'videolist': videolist
+        }
+        return render(request, 'homepage.html', context)
 
 def test(request):
     return render(request, 'abc.html')

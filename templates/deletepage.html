@@ -8,6 +8,7 @@
 <form name="all_video" action="/delete_video" method="post">
     {% for video in videolist %}
         <input type="checkbox" name="delete_list" value="{{video.part_id}}"><a href="{{video.url}}">{{video.name}}</a>
+        <br>
     {% endfor %}
     <br>
 <button type="submit">确定删除</button>

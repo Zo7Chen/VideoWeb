@@ -25,6 +25,12 @@ class VideoInfo(object) :
 		Returns video's id.
 		'''
 		return self.id
+		
+	def get_id_str(self) :
+		'''
+		Returns a hex string representing this video's id
+		'''
+		return "{:0>16X}".format(self.get_id())
 
 	def get_name(self) :
 		'''
@@ -102,6 +108,12 @@ class PartInfo(object) :
 		Return part's id.
 		'''
 		return self.id
+		
+	def get_id_str(self) :
+		'''
+		Returns a hex string representing this part's id
+		'''
+		return "{:0>16X}".format(self.get_id())
 
 	def get_name(self) :
 		'''

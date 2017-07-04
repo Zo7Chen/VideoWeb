@@ -21,3 +21,4 @@ db.sqlite3
 video/
 *.mp4
 nginx/
+*.jpg

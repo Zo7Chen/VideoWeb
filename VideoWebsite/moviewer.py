@@ -66,6 +66,17 @@ class VideoInfo(object) :
 		result = PartInfo(get_last_id())
 		connection.commit()
 		return result
+		
+	def del_this(self) :
+		'''
+		Delete this video.
+		'''
+		for part in self.get_parts() :
+			part.del_this_impl();
+		with connection.cursor() as cursor :
+			sql = "DELETE FROM videos_info WHERE id = %s"
+			cursor.execute(sql, (self.get_id()))
+		connection.commit();
 
 
 
@@ -118,7 +129,21 @@ class PartInfo(object) :
 			sql = "SELECT order_number FROM parts_info where id = %s"
 			cursor.execute(sql, (self.get_id()))
 			return cursor.fetchone()["order_number"]
-
+			
+	def del_this_impl(self) :
+		with connection.cursor() as cursor :
+			sql = "DELETE FROM parts_info WHERE id = %s"
+			cursor.execute(sql, (self.get_id()))
+			
+	def del_this(self) :
+		'''
+		Delete this video.
+		'''
+		with connection.cursor() as cursor :
+			sql = "UPDATE parts_info SET order_number = order_number - 1 WHERE video_id = %s AND order_number > %s"
+			cursor.execute(sql, (self.get_video().get_id(), self.get_order_num()))
+		self.del_this_impl()
+		connection.commit()
 
 
 
@@ -182,6 +207,21 @@ def add_video(name) :
 	result = VideoInfo(get_last_id())
 	connection.commit()
 	return result
+
+
+
+def del_all_videos() :
+	'''
+	Delete all videos.
+	'''
+	with connection.cursor() as cursor :
+		sql = "TRUNCATE videos_info"
+		cursor.execute(sql)
+		sql = "TRUNCATE parts_info"
+		cursor.execute(sql)
+	connection.commit()
+	print("All videos deleted.")
+		
 
 
 

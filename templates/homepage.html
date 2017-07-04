@@ -9,6 +9,9 @@
 <form action="uploadpage" method="get">
   <button type="submit" >上传视频</button>
 </form>
+<form action="deletepage" method="get">
+  <button type="submit" >删除视频</button>
+</form>
 {% for video in videolist %}
 	<a href="{{video.url}}"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
 	<br>

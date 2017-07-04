@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form name="all_video" action="/delete_video" method="post">
+    {% for video in videolist %}
+        <input type="checkbox" name="delete_list" value="{{video.part_id}}"><a href="{{video.url}}">{{video.name}}</a>
+    {% endfor %}
+    <br>
+<button type="submit">确定删除</button>
+</form>
+<form action="/" method="get">
+  <button type="submit" >返回主页</button>
+</form>
+</body>
+</html>

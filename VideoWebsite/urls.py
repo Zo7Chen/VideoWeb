@@ -21,10 +21,15 @@ from django.conf import settings
 
 
 urlpatterns = [
+    # page request
     url(r'^$', homepage),
     url(r'^admin/', admin.site.urls),
-    url(r'^video/(?P<part_id>[A-Za-z0-9]{1})/$', video),
-    url(r'^video_upload$', video_upload),
     url(r'^uploadpage$', uploadpage),
+    url(r'^video/(?P<part_id>[A-F0-9]{16})/$', video),
+    url(r'^deletepage$', deletepage),
+
+    # post request
+    url(r'^video_upload$', video_upload),
+    url(r'^delete_video$', video_delete),
     url(r'^test$', test),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

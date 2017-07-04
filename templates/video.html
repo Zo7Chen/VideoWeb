@@ -25,6 +25,11 @@
     </p>
 </video>
 <br>
+<form action="/download/" method="get">
+    <input type="text" value="{{video_url}}" name="download_file" hidden>
+  <button type="submit" formtarget="_blank">下载</button>
+</form>
+<br>
 {% if adj_p.prev != '' %}
 	<a href="{{adj_p.prev}}">上一集</a>
 	<br>

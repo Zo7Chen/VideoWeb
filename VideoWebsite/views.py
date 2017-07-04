@@ -8,6 +8,8 @@ import os
 # import threading
 # from .videoManage import *
 from .moviewer import *
+import re
+from django.http import StreamingHttpResponse
 
 
 class VideoNameUrl(object):
@@ -163,7 +165,7 @@ def video_upload(request):
             partinfo = videoinfo.append_part(request.POST['part_name' + str(i)])
             video_filename = partinfo.get_id_str() + '.mp4'
             vid_filename = os.path.join(os.path.abspath(os.path.dirname(__name__)), 'video', video_filename)
-            fobj = open(vid_filename, 'wb')
+            fobj = open(vid_filename, 'wb+')
             for chrunk in uploadvideo.chunks():
                 fobj.write(chrunk)
             fobj.close()
@@ -209,8 +211,50 @@ def video_delete(request):
         }
         return render(request, 'homepage.html', context)
 
-def test(request):
-    return render(request, 'abc.html')
+# def test(request):
+#     return render(request, 'abc.html')
 
 
+def file_download(request):
+    # if request.method == 'GET':
+    #     video_filename = os.path.join(os.path.abspath(os.path.dirname(__name__)),
+    #                                   'video', str(re.findall(r'/media/(.*)\.mp4', request.GET['download_file'])[0]) + '.mp4')
+    #     with open(video_filename, 'wb') as f:
+    #         c = f.read()
+    #     return HttpResponse(c)
+    # def file_iterator(file_name, chunk_size=512):
+    #     with open(file_name) as f:
+    #         while True:
+    #             c = f.read(chunk_size)
+    #             if c:
+    #                 yield c
+    #             else:
+    #                 break
+    #
+    # the_file_name = os.path.join(os.path.abspath(os.path.dirname(__name__)),
+    #                              'video', str(re.findall(r'/media/(.*)\.mp4', request.GET['download_file'])[0]) + '.mp4')
+    # response = StreamingHttpResponse(file_iterator(the_file_name))
+    # response['Content-Type'] = 'application/octet-stream'
+    # response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)
+    #
+    # return response
 
+    video_filename = os.path.join(os.path.abspath(os.path.dirname(__name__)),
+                                  'video', str(re.findall(r'/media/(.*)\.mp4', request.GET['download_file'])[0]) + '.mp4')
+
+    def file_iterator(file_name, chunk_size=512):
+        with open(file_name, 'rb') as f:
+            while True:
+                c = f.read(chunk_size)
+                if c:
+                    yield c
+                else:
+                    break
+    print(os.path.join(os.path.abspath(os.path.dirname(__name__)),
+                       'video', str(re.findall(r'/media/(.*)\.mp4', request.GET['download_file'])[0]) + '.mp4'))
+    partinfo = PartInfo(int(str(re.findall(r'/media/(.*)\.mp4', request.GET['download_file'])[0]), 16))
+    response = StreamingHttpResponse(file_iterator(video_filename))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(partinfo.get_name() + '.mp4')
+
+    return response

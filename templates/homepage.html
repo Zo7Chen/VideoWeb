@@ -13,9 +13,9 @@
   <button type="submit" >删除视频</button>
 </form>
 {% for video in videolist %}
-	<a href="{{video.url}}"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
+	<a href="{{video.url}}/"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
 	<br>
-    <a href="{{video.url}}">{{video.name}}</a>
+    <a href="{{video.url}}/">{{video.name}}</a>
 	<br>
 {% endfor %}
 </body>

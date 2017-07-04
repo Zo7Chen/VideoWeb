@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^deletepage$', deletepage),
 
     # post request
+    url(r'^download', file_download),
     url(r'^video_upload$', video_upload),
     url(r'^delete_video$', video_delete),
-    url(r'^test$', test),
+    # url(r'^test$', test),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

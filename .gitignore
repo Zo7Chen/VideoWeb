@@ -18,7 +18,12 @@ deploy_key_rsa
 .idea/
 
 db.sqlite3
+<<<<<<< HEAD
 video/
 *.mp4
 nginx/
 *.jpg
+=======
+*.mp4
+*.jpg
+>>>>>>> a920bd9f5fbf4fc4639f7a5db9d568b2cfd3a8fc

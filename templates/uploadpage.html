@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>上传视频</title>
+    <style>
+		.gnl {background-color:#00ffff;}
+        .txtal {text-align:left;}
+    </style>
 </head>
-<body>
-<form id="form_upload" enctype="multipart/form-data" action="/video_upload" method="post">
+<body class="gnl">
+<form class="txtal" id="form_upload" enctype="multipart/form-data" action="/video_upload" method="post">
     {% csrf_token %}
     视频名称：<input type="text" name="video_name">
     <input hidden type="text" id="input_count" name="count" value="1">
+	<br>
     <p>Part:1</p>
-    该P名称 <input type="text" name="part_name1">
+    名称：<input type="text" name="part_name1">
+	<br>
     选择视频<input type="file" name="video1">
+	<br>
 </form>
-<button onclick="Add_part()">添加新part</button>
-<button onclick="Submit_form()">上传</button>
-<form action="/" method="get">
-  <button type="submit" >返回主页</button>
+<div class="txtal">
+    <button onclick="Add_part()">添加新part</button>
+    <button onclick="Submit_form()">上传</button>
+</div>
+<form class="txtal" action="/" method="get">
+    <button type="submit" >返回主页</button>
 </form>
 <script>
     var part_count= 1;
@@ -31,16 +40,18 @@
         para.appendChild(node);
         var element = document.getElementById("form_upload");
         element.appendChild(para);
-        element.appendChild(document.createTextNode("该P名称"));
+        element.appendChild(document.createTextNode("名称："));
         var newpart_name = document.createElement("input");
         newpart_name.setAttribute("type", "text");
         newpart_name.setAttribute("name", "part_name"+part_count.toString());
         element.appendChild(newpart_name);
+		element.appendChild(document.createElement("br"));
         element.appendChild(document.createTextNode("选择视频"));
         var newvideo = document.createElement("input");
         newvideo.setAttribute("type", "file");
         newvideo.setAttribute("name", "video"+part_count.toString());
         element.appendChild(newvideo);
+		element.appendChild(document.createElement("br"));
     }
     function Submit_form()
     {
@@ -50,6 +61,6 @@
 
 
 </script>
-<p>{{message}}</p>
+<p class="txtal">{{message}}</p>
 </body>
 </html>

@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
+    <style>
+		.gnl {background-color:#00ffff;}
+        .txtal {text-align:center;}
+    </style>
 </head>
-<body>
-<h1>Video Website MAINPAGE</h1>
-<form action="uploadpage" method="get">
-  <button type="submit" >上传视频</button>
-</form>
-<form action="deletepage" method="get">
-  <button type="submit" >删除视频</button>
-</form>
-{% for video in videolist %}
-	<a href="{{video.url}}/"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
-	<br>
-    <a href="{{video.url}}/">{{video.name}}</a>
-	<br>
-{% endfor %}
+<body class="gnl">
+    <h1 class="txtal">Video Website</h1>
+    <form class="txtal" action="uploadpage" method="get">
+        <button type="submit" >上传视频</button>
+    </form>
+    <form class="txtal" action="deletepage" method="get">
+        <button type="submit" >删除视频</button>
+    </form>
+    {% for video in videolist %}
+	    <a class="txtal" href="{{video.url}}/"><img src="{{video.ss_url}}" height ="90" width="160"></img></a>
+	    <br>
+        <a class="txtal" href="{{video.url}}/">{{video.name}}</a>
+	    <br>
+    {% endfor %}
 </body>
 </html>

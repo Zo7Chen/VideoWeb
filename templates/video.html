@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
     <script src="//vjs.zencdn.net/5.19/video.min.js"></script>
-    <title>视频名称{{video_name}}</title>
+    <title>{{video_name}}</title>
+    <style>
+        .gnl {background-color:#00ffff;}
+        .txtal {text-align:center;}
+    </style>
 </head>
-<body>
-<h1>该Part名称：{{part_name}}</h1>
-<video
+<body class="gnl">
+<h1>{{video_name}}：{{part_name}}</h1>
+<!-- <video
     id="my-player"
     class="video-js vjs-default-skin vjs-big-play-centered"
     controls preload="auto" width="640" height="264"
@@ -20,9 +24,12 @@
     To view this video please enable JavaScript, and consider upgrading to a
     web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">
-      supports HTML5 video
+        supports HTML5 video
     </a>
     </p>
+</video> -->
+<video width="1024" height="576" controls>
+	<source src="{{video_url}}" type="video/mp4"></source>
 </video>
 <br>
 <form action="/download/" method="get">
@@ -47,7 +54,7 @@
 	<br>
 {% endfor %}
 <form action="/" method="get">
-  <button type="submit" >返回主页</button>
+    <button type="submit" >返回主页</button>
 </form>
 </body>
 </html>
